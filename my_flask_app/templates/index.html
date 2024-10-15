@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Data Visualization for Economic Output CSV File</h1>
+    <form method="POST">
+        <label for="year">Enter the year (1980-81 to 2015-16):</label>
+        <input type="text" name="year" id="year" required><br><br>
+        <input type="submit" value="Generate Charts">
+    </form>
+
+    <!-- Pie Chart -->
+    {% if graph_json %}
+        <div id="pie-chart"></div>
+        <script>
+            var graphData = {{ graph_json | safe }};
+            Plotly.newPlot('pie-chart', graphData.data, graphData.layout);
+        </script>
+    {% endif %}
+
+    <!-- Bar Chart -->
+    {% if bar_json %}
+        <div id="bar-chart"></div>
+        <script>
+            var barData = {{ bar_json | safe }};
+            Plotly.newPlot('bar-chart', barData.data, barData.layout);
+        </script>
+    {% endif %}
+
+    <!-- Funnel Chart -->
+    {% if funnel_json %}
+        <div id="funnel-chart"></div>
+        <script>
+            var funnelData = {{ funnel_json | safe }};
+            Plotly.newPlot('funnel-chart', funnelData.data, funnelData.layout);
+        </script>
+    {% endif %}
+
+    <!-- Line Graph -->
+    {% if line_json %}
+        <div id="line-chart"></div>
+        <script>
+            var lineData = {{ line_json | safe }};
+            Plotly.newPlot('line-chart', lineData.data, lineData.layout);
+        </script>
+    {% endif %}
+
+    <!-- Error Message -->
+    {% if error %}
+        <p style="color:red;">{{ error }}</p>
+    {% endif %}
+</body>
+</html>
